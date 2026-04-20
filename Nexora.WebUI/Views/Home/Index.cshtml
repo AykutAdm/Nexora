@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UILayout.cshtml";
+    var today = DateTime.Today.ToString("yyyy-MM-dd");
+    var checkinDefault = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
+    var checkoutDefault = DateTime.Today.AddDays(3).ToString("yyyy-MM-dd");
+}
+
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-bg">
+        <div class="hero-overlay"></div>
+        <div class="hero-particles" id="heroParticles"></div>
+    </div>
+    <div class="hero-content">
+        <p class="hero-eyebrow">Discover the world's finest stays</p>
+        <h1 class="hero-title">Where Will You<br /><em>Wander Next?</em></h1>
+
+
+        <!-- SEARCH FORM → GET /Home/Results -->
+        <form class="search-card" id="searchCard" method="get" asp-action="Results" asp-controller="Home">
+            <div class="search-grid">
+                <div class="field-wrap">
+                    <i class="fa-solid fa-location-dot field-icon"></i>
+                    <input type="text" name="city" id="cityInput" class="search-input" placeholder=" " autocomplete="off" required />
+                    <label class="floating-label" for="cityInput">Destination</label>
+                </div>
+
+                <div class="field-wrap">
+                    <i class="fa-regular fa-calendar field-icon"></i>
+                    <input type="date" name="checkin" id="checkin" class="search-input date-input" min="@today" value="@checkinDefault" required />
+                    <label class="floating-label active" for="checkin">Check-in</label>
+                </div>
+
+                <div class="field-wrap">
+                    <i class="fa-regular fa-calendar-check field-icon"></i>
+                    <input type="date" name="checkout" id="checkout" class="search-input date-input" min="@checkinDefault" value="@checkoutDefault" required />
+                    <label class="floating-label active" for="checkout">Check-out</label>
+                </div>
+
+                <div class="field-wrap">
+                    <i class="fa-solid fa-user field-icon"></i>
+                    <input type="number" name="adults" id="adults" class="search-input" min="1" max="20" value="2" required />
+                    <label class="floating-label active" for="adults">Adults</label>
+                </div>
+
+                <div class="field-wrap">
+                    <i class="fa-solid fa-child field-icon"></i>
+                    <input type="number" name="children" id="children" class="search-input" min="0" max="10" value="0" required />
+                    <label class="floating-label active" for="children">Children</label>
+                </div>
+
+                <div class="field-wrap">
+                    <i class="fa-solid fa-door-open field-icon"></i>
+                    <input type="number" name="rooms" id="rooms" class="search-input" min="1" max="10" value="1" required />
+                    <label class="floating-label active" for="rooms">Rooms</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-search" id="searchBtn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Search Hotels</span>
+            </button>
+        </form>
+
+    </div>
+
+    <div class="hero-scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- DASHBOARD SECTION -->
+<section class="dashboard-section" id="dashboard">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-eyebrow">Live Data</p>
+            <h2 class="section-title">Market <em>Pulse</em></h2>
+            <p class="section-sub">Real-time financial & local insights for your trip</p>
+        </div>
+
+        <div class="dashboard-grid">
+
+            <!-- Currency Card -->
+            @await Component.InvokeAsync("_HomeCurrencyRatesComponentPartial")
+
+            <!-- Fuel Card -->
+            @await Component.InvokeAsync("_HomeFuelPricesComponentPartial")
+
+            <!-- Crypto Card -->
+            @await Component.InvokeAsync("_HomeCryptoPriceComponentPartial")
+
+
+            <!-- Weather Card -->
+            @await Component.InvokeAsync("_HomeWeatherComponentPartial")
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="/hotel/home.js"></script>
+}

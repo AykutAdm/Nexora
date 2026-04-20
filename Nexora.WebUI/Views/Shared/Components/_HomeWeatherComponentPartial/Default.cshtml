@@ -1,0 +1,27 @@
+﻿@model Nexora.WebUI.DTOs.WeatherForecastDtos.ResultWeatherForecastDto
+@using System.Linq
+
+<div class="dash-card glass weather-card" id="weatherCard">
+    <div class="weather-city-row">
+        <div>
+            <span class="weather-city-name">@Model.name</span>
+            <span class="weather-country">@Model.sys.country</span>
+        </div>
+        @foreach (var item in Model.weather.Take(1))
+        {
+            <div class="weather-icon-main" id="weatherIconMain">
+                <img src="@($"https://openweathermap.org/img/wn/{item.icon}@2x.png")" alt="" class="weather-icon-img" width="72" height="72" />
+            </div>
+        }
+    </div>
+    <div class="weather-temp" id="weatherTemp">@Model.main.temp.ToString("0")°C</div>
+    @foreach (var item in Model.weather.Take(1))
+    {
+        <div class="weather-desc" id="weatherDesc">@item.description</div>
+    }
+    <div class="weather-details" id="weatherDetails">
+        <div class="wdetail"><i class="fa-solid fa-droplet"></i><span id="humidity">@Model.main.humidity%</span><small>Humidity</small></div>
+        <div class="wdetail"><i class="fa-solid fa-wind"></i><span id="windSpeed">@((Model.wind?.speed ?? 0f).ToString("0.#")) km/h</span><small>Wind</small></div>
+        <div class="wdetail"><i class="fa-solid fa-temperature-half"></i><span id="feelsLike">@Model.main.feels_like.ToString("0")°C</span><small>Feels Like</small></div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+﻿<div class="dash-card glass" id="currencyCard">
+    <div class="dash-card-header">
+        <div class="dash-icon-wrap">
+            <i class="fa-solid fa-coins"></i>
+        </div>
+        <div>
+            <h3>Currency Rates</h3>
+            <span class="dash-sub">TRY Base</span>
+        </div>
+        <div class="live-badge">
+            <span class="pulse-dot"></span>Live
+        </div>
+    </div>
+
+    <div class="currency-list" id="currencyList">
+
+        <!-- USD -->
+        <div class="rate-row">
+            <div class="rate-pair">
+                <span class="rate-flag">US</span>
+                <div>
+                    <div class="rate-name">USD</div>
+                    <div class="rate-desc">US Dollar</div>
+                </div>
+            </div>
+            <div class="rate-row-values">
+                <div class="rate-value">@ViewBag.USD</div>
+            </div>
+        </div>
+
+        <!-- EUR -->
+        <div class="rate-row">
+            <div class="rate-pair">
+                <span class="rate-flag">EU</span>
+                <div>
+                    <div class="rate-name">EUR</div>
+                    <div class="rate-desc">Euro</div>
+                </div>
+            </div>
+            <div class="rate-row-values">
+                <div class="rate-value">@ViewBag.EUR</div>
+            </div>
+        </div>
+
+        <!-- RUB -->
+        <div class="rate-row">
+            <div class="rate-pair">
+                <span class="rate-flag">RU</span>
+                <div>
+                    <div class="rate-name">RUB</div>
+                    <div class="rate-desc">Russian Ruble</div>
+                </div>
+            </div>
+            <div class="rate-row-values">
+                <div class="rate-value">@ViewBag.RUB</div>
+            </div>
+        </div>
+
+    </div>
+</div>

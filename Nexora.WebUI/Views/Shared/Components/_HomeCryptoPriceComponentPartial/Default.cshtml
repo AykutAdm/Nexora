@@ -1,0 +1,41 @@
+﻿@model ResultCryptoPriceDto
+@using System.Globalization
+
+<div class="dash-card glass" id="cryptoCard">
+    <div class="dash-card-header">
+        <div class="dash-icon-wrap crypto-icon">
+            <i class="fa-brands fa-bitcoin"></i>
+        </div>
+        <div>
+            <h3>Crypto Prices</h3>
+            <span class="dash-sub">USD Market</span>
+        </div>
+        <div class="live-badge"><span class="pulse-dot"></span>Live</div>
+    </div>
+    <div class="crypto-list" id="cryptoList">
+        <div class="crypto-row">
+            <div class="rate-pair">
+                <span class="crypto-icon-wrap">₿</span>
+                <div>
+                    <div class="crypto-name">Bitcoin</div>
+                    <div class="crypto-ticker">BTC</div>
+                </div>
+            </div>
+            <div class="rate-row-values">
+                <div class="crypto-price">$@Model.bitcoin.usd.ToString("N0", CultureInfo.InvariantCulture)</div>
+            </div>
+        </div>
+        <div class="crypto-row">
+            <div class="rate-pair">
+                <span class="crypto-icon-wrap">Ξ</span>
+                <div>
+                    <div class="crypto-name">Ethereum</div>
+                    <div class="crypto-ticker">ETH</div>
+                </div>
+            </div>
+            <div class="rate-row-values">
+                <div class="crypto-price">$@Model.ethereum.usd.ToString("N2", CultureInfo.InvariantCulture)</div>
+            </div>
+        </div>
+    </div>
+</div>

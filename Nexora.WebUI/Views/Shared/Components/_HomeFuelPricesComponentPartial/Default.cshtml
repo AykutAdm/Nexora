@@ -1,0 +1,55 @@
+﻿@model Nexora.WebUI.DTOs.GasPriceDtos.ResultGasPriceDto.Result
+@using System.Globalization
+@using System.Linq
+@functions {
+    decimal P(string? s) =>
+        decimal.TryParse(s, NumberStyles.Number, CultureInfo.GetCultureInfo("tr-TR"), out var v) ? v : 0m;
+
+    string BarPct(decimal v, decimal max) =>
+        max <= 0 ? "0" : Math.Min(100, (double)(v / max * 100m)).ToString("0.#", CultureInfo.InvariantCulture);
+}
+@{
+    var gasoline = P(Model.gasoline);
+    var diesel = P(Model.diesel);
+    var lpg = P(Model.lpg);
+    var max = new[] { gasoline, diesel, lpg }.Max();
+    var sym = Model.currency == "euro" ? "€" : "₺";
+}
+<div class="dash-card glass" id="fuelCard">
+    <div class="dash-card-header">
+        <div class="dash-icon-wrap fuel-icon">
+            <i class="fa-solid fa-gas-pump"></i>
+        </div>
+        <div>
+            <h3>Fuel Prices</h3>
+            <span class="dash-sub">Turkey @(Model.currency == "euro" ? "(€/L)" : "(₺/L)")</span>
+        </div>
+        <div class="live-badge"><span class="pulse-dot"></span>Live</div>
+    </div>
+    <div class="fuel-list" id="fuelList">
+        <div class="fuel-row">
+            <div>
+                <div class="fuel-type">Gasoline</div>
+                <div class="fuel-unit">RON95</div>
+            </div>
+            <div class="fuel-bar-wrap"><div class="fuel-bar" style="width:@BarPct(gasoline, max)%"></div></div>
+            <div class="fuel-price-val">@sym@gasoline.ToString("0.##", CultureInfo.InvariantCulture)</div>
+        </div>
+        <div class="fuel-row">
+            <div>
+                <div class="fuel-type">Diesel</div>
+                <div class="fuel-unit">Euro 5</div>
+            </div>
+            <div class="fuel-bar-wrap"><div class="fuel-bar" style="width:@BarPct(diesel, max)%"></div></div>
+            <div class="fuel-price-val">@sym@diesel.ToString("0.##", CultureInfo.InvariantCulture)</div>
+        </div>
+        <div class="fuel-row">
+            <div>
+                <div class="fuel-type">LPG</div>
+                <div class="fuel-unit">Autogas</div>
+            </div>
+            <div class="fuel-bar-wrap"><div class="fuel-bar" style="width:@BarPct(lpg, max)%"></div></div>
+            <div class="fuel-price-val">@sym@lpg.ToString("0.##", CultureInfo.InvariantCulture)</div>
+        </div>
+    </div>
+</div>

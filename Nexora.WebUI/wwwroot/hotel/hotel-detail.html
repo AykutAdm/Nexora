@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Details — Nexora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="detail-page">
+
+  <!-- NAV -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-gem">◈</span> Nexora
+      </a>
+      <a href="index.html" class="btn-back-nav">
+        <i class="fa-solid fa-arrow-left"></i> Back to results
+      </a>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- GALLERY HERO -->
+  <section class="detail-gallery-section">
+    <div class="gallery-slider" id="gallerySlider">
+      <div class="gallery-track" id="galleryTrack">
+        <!-- Injected by JS -->
+      </div>
+      <button class="gallery-btn prev" id="galleryPrev"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="gallery-btn next" id="galleryNext"><i class="fa-solid fa-chevron-right"></i></button>
+      <div class="gallery-dots" id="galleryDots"></div>
+      <div class="gallery-counter" id="galleryCounter">1 / 6</div>
+    </div>
+  </section>
+
+  <!-- DETAIL BODY -->
+  <div class="detail-container container">
+    <div class="detail-main">
+
+      <!-- HOTEL HEADER -->
+      <div class="detail-header fade-in-up">
+        <div class="detail-stars" id="detailStars"></div>
+        <h1 class="detail-hotel-name" id="detailHotelName">Loading...</h1>
+        <div class="detail-location-row">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="detailAddress">Istanbul, Turkey</span>
+          <span class="detail-coords" id="detailCoords"></span>
+        </div>
+      </div>
+
+      <!-- HIGHLIGHTS BAR -->
+      <div class="highlights-bar fade-in-up">
+        <div class="highlight-item">
+          <i class="fa-regular fa-clock"></i>
+          <div>
+            <span class="hl-label">Check-in</span>
+            <span class="hl-value" id="checkinTime">14:00</span>
+          </div>
+        </div>
+        <div class="highlight-sep"></div>
+        <div class="highlight-item">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <div>
+            <span class="hl-label">Check-out</span>
+            <span class="hl-value" id="checkoutTime">12:00</span>
+          </div>
+        </div>
+        <div class="highlight-sep"></div>
+        <div class="highlight-item">
+          <i class="fa-solid fa-star"></i>
+          <div>
+            <span class="hl-label">Rating</span>
+            <span class="hl-value" id="detailRating">9.2</span>
+          </div>
+        </div>
+        <div class="highlight-sep"></div>
+        <div class="highlight-item">
+          <i class="fa-solid fa-tag"></i>
+          <div>
+            <span class="hl-label">From</span>
+            <span class="hl-value price-accent" id="detailPrice">$0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="detail-section fade-in-up">
+        <h2 class="detail-section-title">About This Hotel</h2>
+        <p class="detail-description" id="detailDescription">Loading description...</p>
+      </div>
+
+      <!-- AMENITIES -->
+      <div class="detail-section fade-in-up">
+        <h2 class="detail-section-title">Amenities</h2>
+        <div class="amenities-grid" id="amenitiesGrid"></div>
+      </div>
+
+      <!-- MAP PLACEHOLDER -->
+      <div class="detail-section fade-in-up">
+        <h2 class="detail-section-title">Location</h2>
+        <div class="map-placeholder" id="mapPlaceholder">
+          <div class="map-pin-anim">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <div class="map-address-overlay" id="mapAddressOverlay"></div>
+          <div class="map-grid-lines"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOOKING SIDEBAR -->
+    <aside class="booking-sidebar">
+      <div class="booking-card glass fade-in-up">
+        <div class="booking-price-row">
+          <span class="booking-price" id="sidebarPrice">$0</span>
+          <span class="per-night">/ night</span>
+        </div>
+        <div class="booking-stars" id="sidebarStars"></div>
+
+        <div class="booking-form">
+          <div class="booking-field-row">
+            <div class="booking-field">
+              <label>Check-in</label>
+              <input type="date" id="bookCheckin" class="booking-input" />
+            </div>
+            <div class="booking-field">
+              <label>Check-out</label>
+              <input type="date" id="bookCheckout" class="booking-input" />
+            </div>
+          </div>
+          <div class="booking-field">
+            <label>Guests</label>
+            <select class="booking-input">
+              <option>1 Adult</option>
+              <option selected>2 Adults</option>
+              <option>2 Adults, 1 Child</option>
+              <option>2 Adults, 2 Children</option>
+            </select>
+          </div>
+          <div class="booking-summary" id="bookingSummary">
+            <div class="booking-summary-row">
+              <span id="nightsLabel">3 nights</span>
+              <span id="nightsTotal">$0</span>
+            </div>
+            <div class="booking-summary-row">
+              <span>Taxes & fees</span>
+              <span id="taxTotal">$0</span>
+            </div>
+            <div class="booking-summary-row total">
+              <span>Total</span>
+              <span id="grandTotal">$0</span>
+            </div>
+          </div>
+          <button class="btn-book">Reserve Now <i class="fa-solid fa-arrow-right"></i></button>
+          <p class="booking-note">You won't be charged yet</p>
+        </div>
+      </div>
+
+      <div class="trust-badges glass">
+        <div class="trust-item"><i class="fa-solid fa-shield-halved"></i> Free cancellation</div>
+        <div class="trust-item"><i class="fa-solid fa-lock"></i> Secure payment</div>
+        <div class="trust-item"><i class="fa-solid fa-headset"></i> 24/7 support</div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- SIMILAR HOTELS -->
+  <section class="similar-section">
+    <div class="container">
+      <h2 class="section-title">You May Also <em>Like</em></h2>
+      <div class="similar-grid" id="similarGrid"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-bottom">
+      <span>© 2025 Nexora. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script src="site-core.js"></script>
+  <script src="hotel-detail.js"></script>
+</body>
+</html>

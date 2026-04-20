@@ -1,0 +1,57 @@
+@model HotelSearchPageVm
+@{
+    ViewData["Title"] = "Hotel Search";
+    Layout = "~/Views/Shared/_UILayout.cshtml";
+}
+
+<section class="filter-section results-page-section">
+    <div class="container">
+        <div class="results-page-header">
+            <a href="/" class="results-back"><i class="fa-solid fa-arrow-left"></i> Back to search</a>
+            <h1 class="results-page-title">Stays in <em>@Model.DestinationLabel</em></h1>
+            <p class="results-page-meta">
+                @Model.Checkin.ToString("MMM d, yyyy") – @Model.Checkout.ToString("MMM d, yyyy")
+                · @Model.Hotels.Count hotels · prices in USD / night
+            </p>
+        </div>
+
+        <div class="hotels-grid results-grid">
+            @foreach (var h in Model.Hotels)
+            {
+                <a class="hotel-card hotel-card-link"
+                   asp-action="Detail"
+                   asp-controller="Home"
+                   asp-route-hotelId="@h.Id"
+                   asp-route-checkin="@Model.Checkin.ToString("yyyy-MM-dd")"
+                   asp-route-checkout="@Model.Checkout.ToString("yyyy-MM-dd")"
+                   asp-route-adults="@Model.Adults"
+                   asp-route-children="@Model.Children"
+                   asp-route-rooms="@Model.Rooms"
+                   asp-route-city="@Model.City"
+                   asp-route-destinationLabel="@Model.DestinationLabel">
+                    <div class="hotel-card-img-wrap">
+                        <img class="hotel-card-img" src="@h.ImageUrl" alt="@h.Name" loading="lazy" />
+                    </div>
+                    <div class="hotel-card-body">
+                        <div class="hotel-card-stars">
+                            @for (var s = 0; s < h.Stars; s++)
+                            {
+                                <i class="fa-solid fa-star star-icon"></i>
+                            }
+                            @for (var s = h.Stars; s < 5; s++)
+                            {
+                                <i class="fa-regular fa-star star-icon empty"></i>
+                            }
+                        </div>
+                        <h3 class="hotel-card-name">@h.Name</h3>
+                        <div class="hotel-card-footer">
+                            <div class="hotel-price">
+                                <strong>$@h.NightPrice.ToString("0.##")</strong><span>/night</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</section>

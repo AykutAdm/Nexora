@@ -1,0 +1,245 @@
+@model HotelDetailPageVm
+@{
+    ViewData["Title"] = Model.Name;
+    Layout = "~/Views/Shared/_UILayout.cshtml";
+    var nights = Math.Max(1, (Model.Checkout.Date - Model.Checkin.Date).Days);
+    var staySubtotal = Model.PricePerNight * nights;
+    var guestSummary = $"{Model.Adults} adult(s)";
+    if (Model.Children > 0)
+        guestSummary += $", {Model.Children} child(ren)";
+    guestSummary += $" · {Model.Rooms} room(s)";
+    var heroCount = Model.GalleryUrls.Count > 0 ? Model.GalleryUrls.Count : 1;
+    var heroSingle = heroCount <= 1;
+}
+
+<section class="hotel-detail-section">
+    <div class="container detail-head">
+        <a class="results-back"
+           asp-action="Results"
+           asp-controller="Home"
+           asp-route-city="@Model.SearchCity"
+           asp-route-checkin="@Model.Checkin.ToString("yyyy-MM-dd")"
+           asp-route-checkout="@Model.Checkout.ToString("yyyy-MM-dd")"
+           asp-route-adults="@Model.Adults"
+           asp-route-children="@Model.Children"
+           asp-route-rooms="@Model.Rooms">
+            <i class="fa-solid fa-arrow-left"></i> Back to results
+        </a>
+
+        <div class="detail-hero-wrap" role="region" aria-label="Photo gallery">
+            <div class="gallery-slider gallery-slider--peek detail-hero-slider @(heroSingle ? "detail-hero-slider--single" : "")">
+                <div class="detail-hero-scroll" id="detailGalleryScroll" tabindex="0">
+                    @if (Model.GalleryUrls.Count == 0)
+                    {
+                        <div class="detail-hero-slide detail-hero-slide--empty">
+                            <span>No photos available</span>
+                        </div>
+                    }
+                    else
+                    {
+                        var hi = 0;
+                        foreach (var url in Model.GalleryUrls)
+                        {
+                            <div class="detail-hero-slide">
+                                <img src="@url" alt="@Model.Name — photo @(hi + 1)" loading="@(hi == 0 ? "eager" : "lazy")" />
+                            </div>
+                            hi++;
+                        }
+                    }
+                </div>
+                <button type="button" class="gallery-btn prev" id="detailGalleryPrev" aria-label="Previous image">
+                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="gallery-btn next" id="detailGalleryNext" aria-label="Next image">
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </button>
+                <div class="gallery-dots" id="detailGalleryDots" role="tablist" aria-label="Gallery photos">
+                    @for (var i = 0; i < heroCount; i++)
+                    {
+                        <button type="button"
+                                class="gallery-dot @(i == 0 ? "active" : "")"
+                                aria-label="Photo @(i + 1) of @heroCount"
+                                aria-current="@(i == 0 ? "true" : "false")"></button>
+                    }
+                </div>
+                <div class="gallery-counter" id="detailGalleryCounter">1 / @heroCount</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-container container">
+        <div class="detail-main">
+            <header class="detail-header">
+                <h1 class="detail-hotel-name">@Model.Name</h1>
+                <div class="detail-location-row">
+                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                    <span>@Model.Address · @Model.City, @Model.Country</span>
+                    <span class="detail-coords">@Model.Latitude.ToString("0.####"), @Model.Longitude.ToString("0.####")</span>
+                </div>
+                <p class="detail-sub-meta">
+                    @Model.ReviewCount.ToString("N0") reviews
+                    · @Model.PricePerNight.ToString("0.##") @Model.PriceCurrency / night
+                </p>
+                <p class="detail-dates">
+                    Stay: @Model.ArrivalDate — @Model.DepartureDate
+                    · Check-in from @Model.CheckinTime · Check-out until @Model.CheckoutTime
+                    · <a class="detail-map-link" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=@Model.Latitude&amp;mlon=@Model.Longitude&amp;zoom=15">Open map</a>
+                </p>
+            </header>
+
+            @if (Model.Highlights.Count > 0)
+            {
+                <ul class="detail-tags detail-tags--spaced">
+                    @foreach (var item in Model.Highlights)
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+            }
+
+            <div class="highlights-bar">
+                <div class="highlight-item">
+                    <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                    <div>
+                        <span class="hl-label">Check-in</span>
+                        <span class="hl-value">@Model.CheckinTime</span>
+                    </div>
+                </div>
+                <div class="highlight-sep" aria-hidden="true"></div>
+                <div class="highlight-item">
+                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                    <div>
+                        <span class="hl-label">Check-out</span>
+                        <span class="hl-value">@Model.CheckoutTime</span>
+                    </div>
+                </div>
+                <div class="highlight-sep" aria-hidden="true"></div>
+                <div class="highlight-item">
+                    <i class="fa-regular fa-comment" aria-hidden="true"></i>
+                    <div>
+                        <span class="hl-label">Reviews</span>
+                        <span class="hl-value">@Model.ReviewCount.ToString("N0")</span>
+                    </div>
+                </div>
+                <div class="highlight-sep" aria-hidden="true"></div>
+                <div class="highlight-item">
+                    <i class="fa-solid fa-tag" aria-hidden="true"></i>
+                    <div>
+                        <span class="hl-label">From</span>
+                        <span class="hl-value price-accent">@Model.PricePerNight.ToString("0.##") @Model.PriceCurrency</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-block glass">
+                <h2 class="detail-block-title">About this stay</h2>
+                <p class="detail-text">@Model.RoomDescription</p>
+            </div>
+
+            <div class="detail-two-col">
+                <div class="detail-block glass">
+                    <h2 class="detail-block-title">Popular facilities</h2>
+                    <ul class="detail-list">
+                        @foreach (var item in Model.PopularFacilities)
+                        {
+                            <li>@item</li>
+                        }
+                    </ul>
+                </div>
+                <div class="detail-block glass">
+                    <h2 class="detail-block-title">Area &amp; benefits</h2>
+                    <ul class="detail-list">
+                        @foreach (var item in Model.AreaBenefits)
+                        {
+                            <li>@item</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="detail-block glass">
+                <h2 class="detail-block-title">Family</h2>
+                <ul class="detail-list">
+                    @foreach (var item in Model.FamilyFacilities)
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+            </div>
+
+            <div class="detail-section-location">
+                <h2 class="detail-section-title">Location</h2>
+                <div class="map-placeholder">
+                    <div class="map-grid-lines" aria-hidden="true"></div>
+                    <div class="map-pin-anim" aria-hidden="true">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="map-address-overlay">
+                        @Model.Address, @Model.City
+                        · <a class="detail-map-link" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=@Model.Latitude&amp;mlon=@Model.Longitude&amp;zoom=15">Open in maps</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside class="booking-sidebar">
+            <div class="booking-card glass">
+                <div class="booking-price-row">
+                    <span class="booking-price">@Model.PricePerNight.ToString("0.##") @Model.PriceCurrency</span>
+                    <span class="per-night">/ night</span>
+                </div>
+                <p class="booking-sidebar-meta">@nights night@(nights == 1 ? "" : "s") · @Model.ReviewCount.ToString("N0") reviews</p>
+
+                <div class="booking-form">
+                    <div class="booking-field-row">
+                        <div class="booking-field">
+                            <label for="detail-ci">Check-in</label>
+                            <input id="detail-ci" type="text" class="booking-input" readonly value="@Model.Checkin.ToString("dd.MM.yyyy")" />
+                        </div>
+                        <div class="booking-field">
+                            <label for="detail-co">Check-out</label>
+                            <input id="detail-co" type="text" class="booking-input" readonly value="@Model.Checkout.ToString("dd.MM.yyyy")" />
+                        </div>
+                    </div>
+                    <div class="booking-field">
+                        <label for="detail-guests">Guests</label>
+                        <input id="detail-guests" type="text" class="booking-input" readonly value="@guestSummary" />
+                    </div>
+
+                    <div class="booking-summary">
+                        <div class="booking-summary-row">
+                            <span>@nights night@(nights == 1 ? "" : "s") × @Model.PricePerNight.ToString("0.##") @Model.PriceCurrency</span>
+                            <span>@staySubtotal.ToString("0.##") @Model.PriceCurrency</span>
+                        </div>
+                        <div class="booking-summary-row total">
+                            <span>Est. stay total</span>
+                            <span>@staySubtotal.ToString("0.##") @Model.PriceCurrency</span>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.BookingUrl))
+                    {
+                        <a class="btn-book" href="@Model.BookingUrl" target="_blank" rel="noopener noreferrer">
+                            View on Booking.com <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="btn-book btn-book--disabled">Link unavailable</span>
+                    }
+                    <p class="booking-note">Taxes and fees may apply on the provider site.</p>
+                </div>
+            </div>
+
+            <div class="trust-badges glass">
+                <div class="trust-item"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Compare options on Booking.com</div>
+                <div class="trust-item"><i class="fa-solid fa-lock" aria-hidden="true"></i> Secure payment with provider</div>
+                <div class="trust-item"><i class="fa-solid fa-headset" aria-hidden="true"></i> Support from the booking platform</div>
+            </div>
+        </aside>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="/hotel/detail-hero.js" asp-append-version="true"></script>
+}

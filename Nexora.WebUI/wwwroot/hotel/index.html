@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexora — Find Your Perfect Stay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-gem">◈</span> Nexora
+      </a>
+      <div class="nav-links">
+        <a href="#hotels">Hotels</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#">Offers</a>
+      </div>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+        <button class="btn-nav-cta">Sign In</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-overlay"></div>
+      <div class="hero-particles" id="heroParticles"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Discover the world's finest stays</p>
+      <h1 class="hero-title">Where Will You<br /><em>Wander Next?</em></h1>
+
+
+      <!-- SEARCH FORM -->
+      <form class="search-card" id="searchCard" action="/Home/Results" method="get">
+        <div class="search-grid">
+          <div class="field-wrap">
+            <i class="fa-solid fa-location-dot field-icon"></i>
+            <input type="text" name="city" id="cityInput" class="search-input" placeholder=" " autocomplete="off" required />
+            <label class="floating-label" for="cityInput">Destination</label>
+          </div>
+
+          <div class="field-wrap">
+            <i class="fa-regular fa-calendar field-icon"></i>
+            <input type="date" name="checkin" id="checkin" class="search-input date-input" required />
+            <label class="floating-label active" for="checkin">Check-in</label>
+          </div>
+
+          <div class="field-wrap">
+            <i class="fa-regular fa-calendar-check field-icon"></i>
+            <input type="date" name="checkout" id="checkout" class="search-input date-input" required />
+            <label class="floating-label active" for="checkout">Check-out</label>
+          </div>
+
+          <div class="field-wrap">
+            <i class="fa-solid fa-user field-icon"></i>
+            <input type="number" name="adults" id="adults" class="search-input" min="1" max="20" value="2" required />
+            <label class="floating-label active" for="adults">Adults</label>
+          </div>
+
+          <div class="field-wrap">
+            <i class="fa-solid fa-child field-icon"></i>
+            <input type="number" name="children" id="children" class="search-input" min="0" max="10" value="0" required />
+            <label class="floating-label active" for="children">Children</label>
+          </div>
+
+          <div class="field-wrap">
+            <i class="fa-solid fa-door-open field-icon"></i>
+            <input type="number" name="rooms" id="rooms" class="search-input" min="1" max="10" value="1" required />
+            <label class="floating-label active" for="rooms">Rooms</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-search" id="searchBtn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search Hotels</span>
+        </button>
+      </form>
+
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD SECTION -->
+  <section class="dashboard-section" id="dashboard">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Live Data</p>
+        <h2 class="section-title">Market <em>Pulse</em></h2>
+        <p class="section-sub">Real-time financial & local insights for your trip</p>
+      </div>
+
+      <div class="dashboard-grid">
+
+        <!-- Currency Card -->
+        <div class="dash-card glass" id="currencyCard">
+          <div class="dash-card-header">
+            <div class="dash-icon-wrap">
+              <i class="fa-solid fa-coins"></i>
+            </div>
+            <div>
+              <h3>Currency Rates</h3>
+              <span class="dash-sub">TRY Base</span>
+            </div>
+            <div class="live-badge"><span class="pulse-dot"></span>Live</div>
+          </div>
+          <div class="currency-list" id="currencyList">
+            <div class="rate-row">
+              <div class="rate-pair"><span class="rate-flag">🇺🇸</span><div><div class="rate-name">USD</div><div class="rate-desc">US Dollar</div></div></div>
+              <div class="rate-row-values"><div class="rate-value">—</div></div>
+            </div>
+            <div class="rate-row">
+              <div class="rate-pair"><span class="rate-flag">🇪🇺</span><div><div class="rate-name">EUR</div><div class="rate-desc">Euro</div></div></div>
+              <div class="rate-row-values"><div class="rate-value">—</div></div>
+            </div>
+            <div class="rate-row">
+              <div class="rate-pair"><span class="rate-flag">🇷🇺</span><div><div class="rate-name">RUB</div><div class="rate-desc">Russian Ruble</div></div></div>
+              <div class="rate-row-values"><div class="rate-value">—</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fuel Card -->
+        <div class="dash-card glass" id="fuelCard">
+          <div class="dash-card-header">
+            <div class="dash-icon-wrap fuel-icon">
+              <i class="fa-solid fa-gas-pump"></i>
+            </div>
+            <div>
+              <h3>Fuel Prices</h3>
+              <span class="dash-sub">Turkey (₺/L)</span>
+            </div>
+            <div class="live-badge"><span class="pulse-dot"></span>Live</div>
+          </div>
+          <div class="fuel-list" id="fuelList"></div>
+        </div>
+
+        <!-- Crypto Card -->
+        <div class="dash-card glass" id="cryptoCard">
+          <div class="dash-card-header">
+            <div class="dash-icon-wrap crypto-icon">
+              <i class="fa-brands fa-bitcoin"></i>
+            </div>
+            <div>
+              <h3>Crypto Prices</h3>
+              <span class="dash-sub">USD Market</span>
+            </div>
+            <div class="live-badge"><span class="pulse-dot"></span>Live</div>
+          </div>
+          <div class="crypto-list" id="cryptoList">
+            <div class="crypto-row">
+              <div class="rate-pair"><span class="crypto-icon-wrap">₿</span><div><div class="crypto-name">Bitcoin</div><div class="crypto-ticker">BTC</div></div></div>
+              <div class="rate-row-values"><div class="crypto-price">—</div></div>
+            </div>
+            <div class="crypto-row">
+              <div class="rate-pair"><span class="crypto-icon-wrap">Ξ</span><div><div class="crypto-name">Ethereum</div><div class="crypto-ticker">ETH</div></div></div>
+              <div class="rate-row-values"><div class="crypto-price">—</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weather Card -->
+        <div class="dash-card glass weather-card" id="weatherCard">
+          <div class="weather-city-row">
+            <div>
+              <span class="weather-city-name">Istanbul</span>
+              <span class="weather-country">Turkey</span>
+            </div>
+            <div class="weather-icon-main" id="weatherIconMain">☀️</div>
+          </div>
+          <div class="weather-temp" id="weatherTemp">22°C</div>
+          <div class="weather-desc" id="weatherDesc">Partly Cloudy</div>
+          <div class="weather-details" id="weatherDetails">
+            <div class="wdetail"><i class="fa-solid fa-droplet"></i><span id="humidity">62%</span><small>Humidity</small></div>
+            <div class="wdetail"><i class="fa-solid fa-wind"></i><span id="windSpeed">14 km/h</span><small>Wind</small></div>
+            <div class="wdetail"><i class="fa-solid fa-eye"></i><span id="feelsLike">19°C</span><small>Feels Like</small></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-gem">◈</span> Nexora
+        <p>Premium hotel discovery, reimagined.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#">About</a>
+          <a href="#">Careers</a>
+          <a href="#">Press</a>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="#">Top Hotels</a>
+          <a href="#">Destinations</a>
+          <a href="#">Deals</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="#">Help Center</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Nexora. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script src="site-core.js"></script>
+  <script src="home.js"></script>
+</body>
+</html>
